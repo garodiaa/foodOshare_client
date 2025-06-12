@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import { useLoaderData } from 'react-router';
 import { AuthContext } from '../../providers/AuthProvider';
 import toast, { Toaster } from 'react-hot-toast';
@@ -13,12 +13,13 @@ const FoodDetails = () => {
     const axiosSecure = useAxiosSecure();
     const [showModal, setShowModal] = useState(false);
     const [requestNotes, setRequestNotes] = useState('');
+    const formRef = useRef();
 
     const handleRequest = async (e) => {
         e.preventDefault();
         try {
             await axiosSecure.patch(`/foods/${food._id}`, {
-                Status: 'requested',
+                foodStatus: 'requested',
                 requestNotes,
                 requestedBy: user?.email,
                 requestDate: new Date().toISOString(),
@@ -74,7 +75,7 @@ const FoodDetails = () => {
                                 <MdLocationOn /> Pickup: {food.pickupLocation}
                             </span>
                             <span className="badge badge-error badge-outline flex items-center gap-1">
-                                <MdDateRange /> Expires: {food.expiredDateTime}
+                                <MdDateRange /> Expires: {food.expiredDateTime.replace('T', ' ')}
                             </span>
                         </div>
                         <div className="mb-4">
@@ -107,17 +108,14 @@ const FoodDetails = () => {
                     </div>
                 </div>
             </div>
-            {/* Modal (inline, not using Modal.jsx) */}
+            {/* Modal using <dialog> */}
             {showModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-                    <form
-                        onSubmit={handleRequest}
-                        className="bg-base-100 p-6 rounded-xl border border-base-300 w-full max-w-lg mx-auto mt-10 relative"
-                    >
-                        <h3 className="text-xl font-bold mb-4">Request Food</h3>
-                        <div className="space-y-3">
+                <dialog open className="modal modal-open p-3">
+                    <div className="modal-box max-w-xl">
+                        <h3 className="font-bold text-lg mb-4">Request Food</h3>
+                        <form ref={formRef} onSubmit={handleRequest} className="space-y-4">
                             <div>
-                                <label className="font-semibold">Food Name</label>
+                                <label className="block font-semibold mb-1">Food Name</label>
                                 <input
                                     type="text"
                                     value={food.foodName}
@@ -126,7 +124,7 @@ const FoodDetails = () => {
                                 />
                             </div>
                             <div>
-                                <label className="font-semibold">Food Image</label>
+                                <label className="block font-semibold mb-1">Food Image</label>
                                 <img
                                     src={food.foodImage}
                                     alt={food.foodName}
@@ -134,7 +132,7 @@ const FoodDetails = () => {
                                 />
                             </div>
                             <div>
-                                <label className="font-semibold">Food ID</label>
+                                <label className="block font-semibold mb-1">Food ID</label>
                                 <input
                                     type="text"
                                     value={food._id}
@@ -143,7 +141,7 @@ const FoodDetails = () => {
                                 />
                             </div>
                             <div>
-                                <label className="font-semibold">Donator Email</label>
+                                <label className="block font-semibold mb-1">Donator Email</label>
                                 <input
                                     type="text"
                                     value={food.donorEmail}
@@ -152,7 +150,7 @@ const FoodDetails = () => {
                                 />
                             </div>
                             <div>
-                                <label className="font-semibold">Donator Name</label>
+                                <label className="block font-semibold mb-1">Donator Name</label>
                                 <input
                                     type="text"
                                     value={food.donorName}
@@ -161,7 +159,7 @@ const FoodDetails = () => {
                                 />
                             </div>
                             <div>
-                                <label className="font-semibold">Your Email</label>
+                                <label className="block font-semibold mb-1">Your Email</label>
                                 <input
                                     type="text"
                                     value={user?.email}
@@ -170,7 +168,7 @@ const FoodDetails = () => {
                                 />
                             </div>
                             <div>
-                                <label className="font-semibold">Request Date</label>
+                                <label className="block font-semibold mb-1">Request Date</label>
                                 <input
                                     type="text"
                                     value={new Date().toLocaleString()}
@@ -179,7 +177,7 @@ const FoodDetails = () => {
                                 />
                             </div>
                             <div>
-                                <label className="font-semibold">Pickup Location</label>
+                                <label className="block font-semibold mb-1">Pickup Location</label>
                                 <input
                                     type="text"
                                     value={food.pickupLocation}
@@ -188,7 +186,7 @@ const FoodDetails = () => {
                                 />
                             </div>
                             <div>
-                                <label className="font-semibold">Expire Date</label>
+                                <label className="block font-semibold mb-1">Expire Date</label>
                                 <input
                                     type="text"
                                     value={food.expiredDateTime}
@@ -197,7 +195,7 @@ const FoodDetails = () => {
                                 />
                             </div>
                             <div>
-                                <label className="font-semibold">Additional Notes</label>
+                                <label className="block font-semibold mb-1">Additional Notes</label>
                                 <textarea
                                     className="textarea textarea-bordered w-full"
                                     placeholder="Add your notes"
@@ -205,28 +203,17 @@ const FoodDetails = () => {
                                     onChange={e => setRequestNotes(e.target.value)}
                                 />
                             </div>
-                        </div>
-                        <div className="flex justify-end gap-2 mt-6">
-                            <button
-                                type="button"
-                                className="btn btn-outline"
-                                onClick={() => setShowModal(false)}
-                            >
-                                Cancel
-                            </button>
-                            <button type="submit" className="btn btn-primary">
-                                Request
-                            </button>
-                        </div>
-                        {/* Close button (optional) */}
-                        <button
-                            type="button"
-                            className="absolute top-2 right-2 btn btn-sm btn-circle btn-ghost"
-                            onClick={() => setShowModal(false)}
-                            aria-label="Close"
-                        >✕</button>
+                            <div className="modal-action">
+                                <button type="submit" className="btn btn-primary">Request</button>
+                                <button type="button" className="btn" onClick={() => setShowModal(false)}>Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                    <form method="dialog" className="modal-backdrop">
+                        <button aria-label="Close" onClick={() => setShowModal(false)}>close</button>
                     </form>
-                </div>
+                    <Toaster />
+                </dialog>
             )}
             <Toaster />
         </div>
