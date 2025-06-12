@@ -10,6 +10,7 @@ import FoodDetails from "../pages/public/FoodDetails";
 import Authlayout from "../layouts/Authlayout";
 import Login from "../pages/public/Login";
 import Register from "../pages/public/Register";
+import PrivateRoute from "../providers/PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -28,15 +29,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "add-food",
-        element: <AddFood></AddFood>,
+        element: <PrivateRoute><AddFood></AddFood></PrivateRoute>,
       },
       {
-        path: "my-food-request/:email",
-        element: <MyFoodRequest></MyFoodRequest>,
+        path: "my-food-requests/:email",
+        element: <PrivateRoute><MyFoodRequest></MyFoodRequest></PrivateRoute>,
       },
       {
-        path: "my-food/:email",
-        element: <MyFood></MyFood>
+        path: "manage-foods/:email",
+        element: <PrivateRoute><MyFood></MyFood></PrivateRoute>
       },
       {
         path: "food-details/:id",
