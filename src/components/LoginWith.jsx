@@ -3,7 +3,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { AuthContext } from '../providers/AuthProvider';
 import toast, { Toaster } from 'react-hot-toast';
 
-const LoginWith = () => {
+const LoginWith = ({onSuccess}) => {
 
     const { signInWithGoogle } = useContext(AuthContext);
 

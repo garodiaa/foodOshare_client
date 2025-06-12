@@ -28,23 +28,23 @@ const AuthProvider = ({ children }) => {
 
     const updateUser = (updatedData) => {
         return updateProfile(auth.currentUser, updatedData);
-    }
+    };
 
     const logInUser = (email, password) => {
         setLoading(true);
         return signInWithEmailAndPassword(auth, email, password);
-    }
+    };
 
 
 
     const logOutUser = () => {
         return signOut(auth);
-    }
+    };
 
     const resetPassword = (email) => {
         setLoading(true);
         return sendPasswordResetEmail(auth, email);
-    }
+    };
 
 
 
@@ -72,7 +72,7 @@ const AuthProvider = ({ children }) => {
         signInWithGoogle,
         loading,
         setLoading
-    }
+    };
 
     return <AuthContext value={authData}>
         {children}
