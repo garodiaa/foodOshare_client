@@ -15,15 +15,22 @@ const FoodDetails = () => {
     const [requestNotes, setRequestNotes] = useState('');
     const formRef = useRef();
 
+    // These will be set when food is requested
+    const [requestedByEmail, setRequestedByEmail] = useState(food.requestedBy || '');
+    const [requestedDate, setRequestedDate] = useState(food.requestedDate || '');
+
     const handleRequest = async (e) => {
         e.preventDefault();
+        const now = new Date().toISOString();
         try {
             await axiosSecure.patch(`/foods/${food._id}`, {
                 foodStatus: 'requested',
                 requestNotes,
                 requestedBy: user?.email,
-                requestDate: new Date().toISOString(),
+                requestedDate: now,
             });
+            setRequestedByEmail(user?.email);
+            setRequestedDate(now);
             toast.success('Request sent successfully!');
             setShowModal(false);
         } catch (err) {
@@ -96,6 +103,15 @@ const FoodDetails = () => {
                                 <div className="text-sm text-gray-500">{food.donorEmail}</div>
                             </div>
                         </div>
+                        {/* Show requested by and date if requested */}
+                        {food.foodStatus === 'requested' && (
+                            <div className="mt-4">
+                                <div className="font-semibold">Requested By:</div>
+                                <div className="mb-1">{requestedByEmail || food.requestedBy || 'N/A'}</div>
+                                <div className="font-semibold">Requested Date:</div>
+                                <div>{requestedDate ? new Date(requestedDate).toLocaleString() : (food.requestDate ? new Date(food.requestDate).toLocaleString() : 'N/A')}</div>
+                            </div>
+                        )}
                     </div>
                     <div className="card-actions items-center justify-between mt-6">
                         <button

@@ -29,7 +29,9 @@ const AddFood = () => {
             donorName: user?.displayName || '',
             donorEmail: user?.email || '',
             donorImage: user?.photoURL || '',
-            foodStatus: 'available'
+            foodStatus: 'available',
+            requestedBy: '',
+            requestedDate: '',
         };
 
         try {
