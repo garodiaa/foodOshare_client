@@ -11,6 +11,7 @@ import Authlayout from "../layouts/Authlayout";
 import Login from "../pages/public/Login";
 import Register from "../pages/public/Register";
 import PrivateRoute from "../providers/PrivateRoute";
+import axios from "axios";
 
 export const router = createBrowserRouter([
   {
@@ -40,8 +41,9 @@ export const router = createBrowserRouter([
         element: <PrivateRoute><MyFood></MyFood></PrivateRoute>
       },
       {
-        path: "food-details/:id",
+        path: "food/:id",
         element: <FoodDetails></FoodDetails>,
+        loader: ({params}) => axios(`${import.meta.env.VITE_API_URL}/foods/${params.id}`),
         hydrateFallbackElement: <Loading></Loading>
       },
 
