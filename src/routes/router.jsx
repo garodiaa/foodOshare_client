@@ -34,11 +34,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "my-food-requests/:email",
+        loader: ({params}) => axios(`${import.meta.env.VITE_API_URL}/foods/requestedBy/${params.email}`),
+        hydrateFallbackElement: <Loading></Loading>,
         element: <PrivateRoute><MyFoodRequest></MyFoodRequest></PrivateRoute>,
       },
       {
         path: "manage-foods/:email",
-        element: <PrivateRoute><MyFood></MyFood></PrivateRoute>
+        loader: ({params}) => axios(`${import.meta.env.VITE_API_URL}/foods/user/${params.email}`),
+        hydrateFallbackElement: <Loading></Loading>,
+        element: <PrivateRoute><MyFood></MyFood></PrivateRoute>,
       },
       {
         path: "food/:id",
