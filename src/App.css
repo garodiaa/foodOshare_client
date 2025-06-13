@@ -83,5 +83,5 @@
 
 
 a.active {
- @apply text-secondary font-semibold;
+ @apply text-info font-semibold;
 }
