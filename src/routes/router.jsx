@@ -26,6 +26,7 @@ export const router = createBrowserRouter([
       {
         path: "available-foods",
         element: <AvailableFood></AvailableFood>,
+        loader: () => axios(`${import.meta.env.VITE_API_URL}/foods/available`),
         hydrateFallbackElement: <Loading></Loading>
       },
       {

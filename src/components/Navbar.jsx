@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router';
 import toast, { Toaster } from 'react-hot-toast';
 import { FiMenu } from 'react-icons/fi';
 import { AuthContext } from '../providers/AuthProvider';
+import userDefaultAvatar from '../assets/default-avatar.jpg';
 
 
 const Navbar = () => {
