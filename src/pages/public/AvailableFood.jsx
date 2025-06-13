@@ -3,11 +3,20 @@ import { useLoaderData } from 'react-router';
 import FoodCard from '../../components/FoodCard';
 
 const AvailableFood = () => {
-    const availableFoods = useLoaderData().data;
+    const allFoods = useLoaderData().data;
     const [sortOrder, setSortOrder] = useState('asc');
-    
+    const [search, setSearch] = useState('');
 
-    const sortedFoods = [...availableFoods].sort((a, b) => {
+    // Only show foods with status "available"
+    const availableFoods = allFoods.filter(food => food.foodStatus === 'available');
+
+    // Search by food name (case-insensitive)
+    const searchedFoods = availableFoods.filter(food =>
+        food.foodName.toLowerCase().includes(search.toLowerCase())
+    );
+
+    // Sorting by expire date
+    const sortedFoods = [...searchedFoods].sort((a, b) => {
         const dateA = new Date(a.expiredDateTime);
         const dateB = new Date(b.expiredDateTime);
         return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
@@ -15,15 +24,24 @@ const AvailableFood = () => {
 
     return (
         <div className="max-w-6xl mx-auto my-8 px-4">
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
                 <h2 className="text-2xl font-bold">Available Foods</h2>
-                <div>
-                    <label className="mr-2 font-semibold">Sort by Expire Date:</label>
+                <div className="flex flex-col sm:flex-row gap-2 items-center">
+                    <input
+                        type="text"
+                        placeholder="Search by food name"
+                        className="input input-bordered focus-within:border-none input-sm w-full max-w-xs"
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
+                    />
                     <select
-                        className="select select-bordered focus:outline-none"
+                        className="select focus-within:border-none select-bordered select-sm"
                         value={sortOrder}
                         onChange={e => setSortOrder(e.target.value)}
                     >
+                        <option value="" disabled>
+                            Sort by Expiry Date
+                        </option>
                         <option value="asc">Earliest First</option>
                         <option value="desc">Latest First</option>
                     </select>
