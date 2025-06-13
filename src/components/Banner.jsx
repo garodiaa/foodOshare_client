@@ -23,7 +23,7 @@ const Banner = () => {
 
 
     return (
-        <Slider {...settings} className="w-full mx-auto">
+        <Slider {...settings} className="w-full mx-auto md:mb-20">
             <div className="w-full h-full">
                 <img src={img1} alt="" className="w-full h-full object-cover" />
             </div>

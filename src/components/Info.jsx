@@ -48,7 +48,7 @@ function StatCircle({ icon, value, label }) {
     useEffect(() => {
         const controls = animate(count, value, { duration: 2.5 });
         return () => controls.stop();
-    }, [value]);
+    }, [count,value]);
 
     return (
         <div className="flex flex-col items-center">
@@ -57,7 +57,7 @@ function StatCircle({ icon, value, label }) {
                     width: 120,
                     height: 120,
                     borderRadius: "50%",
-                    background: "var(--primary)",
+                    background: "black",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
