@@ -1,12 +1,8 @@
 import { Link } from 'react-router';
-import { useEffect } from "react";
+
 
 const Error = () => {
 
-//     useEffect(() => {
-//     const storedTheme = localStorage.getItem("theme") || "light";
-//     document.documentElement.setAttribute("data-theme", storedTheme);
-//   }, []);
 
 
     return (
