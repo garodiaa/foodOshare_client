@@ -12,11 +12,13 @@ import Login from "../pages/public/Login";
 import Register from "../pages/public/Register";
 import PrivateRoute from "../providers/PrivateRoute";
 import axios from "axios";
+import Error from "../pages/public/Error";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Homelayout></Homelayout>,
+    errorElement: <Error></Error>,
     children: [
       {
         path: "/",
