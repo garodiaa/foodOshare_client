@@ -17,7 +17,7 @@ const MyFoodCard = ({ food, onDelete, onUpdate }) => {
         foodStatus,
     } = food;
 
-    console.log(food);
+    // console.log(food);
 
     const [showUpdateModal, setShowUpdateModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);

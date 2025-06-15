@@ -14,7 +14,7 @@ const MyFood = () => {
 
     const { data = [], isLoading, error } = useQuery({
         enabled: !!user?.email, // Only run the query if user email is available
-        queryKey: ['myFoodRequests', user?.email],
+        queryKey: ['myFood', user?.email],
         queryFn: async () => {
             const axiosSecure = await getSecureAxios(user);
             const res = await axiosSecure.get(`/foods/user/${user.email}`);

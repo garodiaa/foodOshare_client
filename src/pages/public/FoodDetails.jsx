@@ -21,6 +21,10 @@ const FoodDetails = () => {
 
     const handleRequest = async (e) => {
         e.preventDefault();
+        if (!user) {
+            toast.error('You must be logged in to request food');
+            return;
+        }
         const now = new Date().toISOString();
         try {
             await axiosSecure.patch(`/foods/${food._id}`, {
