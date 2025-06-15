@@ -1,14 +1,45 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLoaderData } from 'react-router';
 import MyFoodCard from '../../components/MyFoodCard';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
+import { AuthContext } from '../../providers/AuthProvider';
+import { getSecureAxios } from '../../utils/getSecureAxios';
+import { useQuery } from '@tanstack/react-query';
+import Loading from '../../components/Loading';
+import Error from '../public/Error';
 
 const MyFood = () => {
-    const initialFoods = useLoaderData().data;
-    const [foods, setFoods] = useState(initialFoods);
+    const { user } = useContext(AuthContext);
+    // const initialFoods = useLoaderData().data;
+
+    const { data = [], isLoading, error } = useQuery({
+        enabled: !!user?.email, // Only run the query if user email is available
+        queryKey: ['myFoodRequests', user?.email],
+        queryFn: async () => {
+            const axiosSecure = await getSecureAxios(user);
+            const res = await axiosSecure.get(`/foods/user/${user.email}`);
+            return res.data;
+        },
+    });
+
+
+    const [foods, setFoods] = useState([]);
     const axiosSecure = useAxiosSecure();
 
-    
+    useEffect(() => {
+        setFoods(data);
+    }, [data]);
+
+    // console.log("MyFood foods", foods);
+
+    if (isLoading) {
+        return <Loading></Loading>
+    }
+    if (error) {
+        return <Error></Error>
+    }
+
+
     const handleUpdate = async (id, updatedData, onSuccess) => {
         try {
             await axiosSecure.patch(`/foods/${id}`, updatedData);

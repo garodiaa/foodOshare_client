@@ -14,6 +14,8 @@ import PrivateRoute from "../providers/PrivateRoute";
 import axios from "axios";
 import Error from "../pages/public/Error";
 
+
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -38,20 +40,20 @@ export const router = createBrowserRouter([
       },
       {
         path: "my-food-requests/:email",
-        loader: ({params}) => axios(`${import.meta.env.VITE_API_URL}/foods/requestedBy/${params.email}`),
-        hydrateFallbackElement: <Loading></Loading>,
+        // loader: ({params}) => axios(`${import.meta.env.VITE_API_URL}/foods/requestedBy/${params.email}`),
+        // hydrateFallbackElement: <Loading></Loading>,
         element: <PrivateRoute><MyFoodRequest></MyFoodRequest></PrivateRoute>,
       },
       {
         path: "manage-foods/:email",
-        loader: ({params}) => axios(`${import.meta.env.VITE_API_URL}/foods/user/${params.email}`),
-        hydrateFallbackElement: <Loading></Loading>,
+        // loader: ({ params }) => axios(`${import.meta.env.VITE_API_URL}/foods/user/${params.email}`),
+        // hydrateFallbackElement: <Loading></Loading>,
         element: <PrivateRoute><MyFood></MyFood></PrivateRoute>,
       },
       {
         path: "food/:id",
         element: <FoodDetails></FoodDetails>,
-        loader: ({params}) => axios(`${import.meta.env.VITE_API_URL}/foods/${params.id}`),
+        loader: ({ params }) => axios(`${import.meta.env.VITE_API_URL}/foods/${params.id}`),
         hydrateFallbackElement: <Loading></Loading>
       },
 
