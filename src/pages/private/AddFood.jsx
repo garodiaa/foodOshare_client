@@ -2,19 +2,40 @@ import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../providers/AuthProvider';
 import toast, { Toaster } from 'react-hot-toast';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
+import { useMutation } from '@tanstack/react-query';
+import { m } from 'motion/react';
 
 const AddFood = () => {
     const { user } = useContext(AuthContext);
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
     const axiosSecure = useAxiosSecure();
+
+
+    // Using useMutation from react-query for better state management
+    const {mutate, isLoading: loading} = useMutation({
+        mutationFn: async (foodData) => {
+            const res = await axiosSecure.post('/foods', foodData);
+            return res.data;    
+        },
+        onSuccess: (data) => {
+            if (data.insertedId || data.success) {
+                toast.success('Food added successfully!');
+            } else {
+                toast.error('Failed to add food.');
+            }
+        },
+        onError: () => {
+            toast.error('Something went wrong!');
+        }
+    });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
+        // setLoading(true);
         const form = e.target;
         const foodName = form.foodName.value;
         const foodImage = form.foodImage.value;
-        const foodQuantity = form.foodQuantity.value;
+        const foodQuantity = Number(form.foodQuantity.value);
         const pickupLocation = form.pickupLocation.value;
         const expiredDateTime = form.expiredDateTime.value;
         const additionalNotes = form.additionalNotes.value;
@@ -34,20 +55,23 @@ const AddFood = () => {
             requestedDate: '',
         };
 
-        try {
-            const res = await axiosSecure.post('/foods', foodData);
-            const data = res.data;
-            if (data.insertedId || data.success) {
-                toast.success('Food added successfully!');
-                form.reset();
-            } else {
-                toast.error('Failed to add food.');
-            }
-        } catch (error) {
-            toast.error('Something went wrong!');
-        } finally {
-            setLoading(false);
-        }
+        mutate(foodData); // Calling the mutation function
+        form.reset();
+
+        // try {
+        //     const res = await axiosSecure.post('/foods', foodData);
+        //     const data = res.data;
+        //     if (data.insertedId || data.success) {
+        //         toast.success('Food added successfully!');
+        //         form.reset();
+        //     } else {
+        //         toast.error('Failed to add food.');
+        //     }
+        // } catch (error) {
+        //     toast.error('Something went wrong!');
+        // } finally {
+        //     setLoading(false);
+        // }
     };
 
     return (

@@ -42,7 +42,7 @@ const AvailableFood = () => {
                         <input
                             type="text"
                             placeholder="Search by food name"
-                            className="input input-bordered input-sm w-full"
+                            className="input focus-within:border-none input-bordered input-sm w-full"
                             value={search}
                             onChange={e => setSearch(e.target.value)}
                         />
