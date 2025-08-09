@@ -2,11 +2,11 @@ import React from 'react';
 
 const MyRequestedFoodCard = ({ food }) => {
     return (
-        <div className="flex flex-col md:flex-row items-center gap-4 p-4 border border-neutral/20 rounded-xl  bg-base-100 mb-4">
+        <div className="flex flex-col md:flex-row items-center gap-4 p-4 border border-base-300 rounded-xl bg-base-100 mb-4">
             <img
                 src={food.foodImage}
                 alt={food.foodName}
-                className="w-24 h-24 object-cover rounded-lg border border-neutral/10 "
+                className="w-24 h-24 object-cover rounded-lg border border-base-300 "
             />
             <div className="flex-1">
                 <h3 className="text-xl font-bold mb-1">{food.foodName}</h3>
