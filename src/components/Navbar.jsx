@@ -35,12 +35,16 @@ const Navbar = () => {
             <li>
                 <NavLink to={"/add-food"}>Add Food</NavLink>
             </li>
-            <li>
-                <NavLink to={`/manage-foods/${user?.email}`}>Manage Food</NavLink>
-            </li>
-            <li>
-                <NavLink to={`/my-food-requests/${user?.email}`}>My Food Requests</NavLink>
-            </li>
+            {user && (
+                <>
+                    <li>
+                        <NavLink to={`/manage-foods/${user?.email}`}>Manage Food</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to={`/my-food-requests/${user?.email}`}>My Food Requests</NavLink>
+                    </li>
+                </>
+            )}
         </>);
 
     return (
