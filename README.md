@@ -7,7 +7,7 @@ FoodOShare is a Community Food Sharing and Surplus Reduction Platform. Our missi
 ## 🚀 Live Site
 
 [https://food-o-share.web.app/](https://food-o-share.web.app/)
-<a href="https://food-o-share.web.app/" target="_blank">Food O Share</a>
+
 
 ---
 
