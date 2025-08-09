@@ -18,8 +18,8 @@ const Footer = () => {
                     <nav>
                         <h6 className="footer-title">Social Media</h6>
                         <a href='https://github.com/garodiaa' className="link link-hover" target='_blank'>Github</a>
-                        <a href='' className="link link-hover" target='_blank'>LinkedIn</a>
-                        <a className="link link-hover" target='_blank'>Facebook</a>
+                        <a href='https://bd.linkedin.com/in/sourav-garodia' className="link link-hover" target='_blank'>LinkedIn</a>
+                        <a href='https://www.garodia.me' className="link link-hover" target='_blank'>Portfolio</a>
                     </nav>
                     <nav>
                         <h6 className="footer-title">Contact</h6>
