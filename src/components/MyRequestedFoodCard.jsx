@@ -6,7 +6,7 @@ const MyRequestedFoodCard = ({ food }) => {
             <img
                 src={food.foodImage}
                 alt={food.foodName}
-                className="w-24 h-24 object-cover rounded-lg border border-base-300 "
+                className="w-52 h-52 object-cover rounded-lg border border-base-300 "
             />
             <div className="flex-1">
                 <h3 className="text-xl font-bold mb-1">{food.foodName}</h3>
