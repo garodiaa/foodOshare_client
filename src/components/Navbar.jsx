@@ -1,7 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router';
 import toast, { Toaster } from 'react-hot-toast';
 import { FiMenu } from 'react-icons/fi';
+import { IoMoonOutline, IoSunnyOutline } from 'react-icons/io5';
 import { AuthContext } from '../providers/AuthProvider';
 import userDefaultAvatar from '../assets/default-avatar.jpg';
 
@@ -9,6 +10,12 @@ import userDefaultAvatar from '../assets/default-avatar.jpg';
 const Navbar = () => {
 
     const { user, loading, logOutUser } = useContext(AuthContext);
+
+    const [isDark, setIsDark] = useState(() => {
+        // Load from localStorage or default to false (light)
+        const storedTheme = localStorage.getItem("theme");
+        return storedTheme === "dark";
+    });
 
     const handleLogout = () => {
         logOutUser()
@@ -21,6 +28,16 @@ const Navbar = () => {
                 // console.error('Error logging out:', error);
             });
     };
+
+    useEffect(() => {
+        const theme = isDark ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("theme", theme);
+    }, [isDark]);
+
+    const toggleTheme = () => setIsDark(prev => !prev);
+
+
 
 
 
@@ -72,6 +89,17 @@ const Navbar = () => {
             </div>
 
             <div className="navbar-end space-x-2 sm:space-x-4">
+                <label className="swap swap-rotate">
+                    {/* this hidden checkbox controls the state */}
+                    <input onChange={toggleTheme} type="checkbox" className="theme-controller" value="synthwave" />
+
+                    {/* sun icon */}
+                    <IoSunnyOutline className='swap-off' size={24} />
+
+                    {/* moon icon */}
+                    <IoMoonOutline className="swap-on" size={24} />
+
+                </label>
 
                 {loading ? (
                     <span className="loading loading-ring loading-xl"></span>

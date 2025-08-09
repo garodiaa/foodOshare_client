@@ -50,5 +50,7 @@ FoodOShare is a Community Food Sharing and Surplus Reduction Platform. Our missi
   - Easily search and sort available foods by name or expiry date
 - **Modern UI/UX**
   - Built with Tailwind CSS, daisyUI, and Framer Motion for a smooth experience
+- **Dark Mode**
+  - Supports dark mode for better user experience
 - **And many more...**
 
